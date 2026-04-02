@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dice Roller</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ee9ca7 0%, #ffdde1 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .dice {
+            font-size: 150px;
+            margin: 20px 0;
+            animation: roll 0.3s ease;
+        }
+        @keyframes roll {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .result {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #ee9ca7;
+            font-weight: bold;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            background: #ee9ca7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ff6b8b;
+        }
+        .history {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f7f7f7;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🎲 Dice Roller</h2>
+        <div class="dice" id="dice">⚀</div>
+        <div class="result" id="result">Click to roll!</div>
+        <button onclick="rollDice()">Roll Dice</button>
+        <div class="history" id="history"></div>
+    </div>
+
+    <script>
+        let diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+        let history = [];
+        
+        function rollDice() {
+            let dice = document.getElementById('dice');
+            let resultDiv = document.getElementById('result');
+            let historyDiv = document.getElementById('history');
+            
+            dice.style.animation = 'roll 0.3s ease';
+            setTimeout(() => {
+                dice.style.animation = '';
+            }, 300);
+            
+            let roll = Math.floor(Math.random() * 6) + 1;
+            dice.innerHTML = diceFaces[roll - 1];
+            resultDiv.innerHTML = `You rolled: ${roll}`;
+            
+            history.unshift(roll);
+            if(history.length > 5) history.pop();
+            
+            let historyText = 'Last rolls: ';
+            for(let i = 0; i < history.length; i++) {
+                historyText += diceFaces[history[i] - 1] + ' ';
+            }
+            historyDiv.innerHTML = historyText;
+        }
+    </script>
+</body>
+</html>
+
